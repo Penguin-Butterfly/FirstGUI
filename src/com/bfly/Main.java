@@ -99,12 +99,8 @@ public class Main extends Application {
             boolean Sgo = tBtn3.isSelected();
             boolean Spause = tBtn2.isSelected();
             boolean Sback = tBtn1.isSelected();
-            while(Sgo){
-                i++;
-            }
-            while(Sback) {
-                i--;
-            }
+            while(Sgo)i++;
+            while(Sback)i--;
 
         //Layout
         HBox layout1 = new HBox(tBtn1, tBtn2, tBtn3);
