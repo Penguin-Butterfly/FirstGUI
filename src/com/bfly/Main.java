@@ -4,10 +4,7 @@ package com.bfly;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -24,6 +21,9 @@ import java.util.ArrayList;
 public class Main extends Application {
     Label text1;
     Label text2;
+    Boolean Sgo;
+    Boolean Spause;
+    Boolean Sback;
     int i;
     public static void main(String[] args) {
         // write your code here
@@ -32,7 +32,9 @@ public class Main extends Application {
 
     public void go(){
         System.out.println("Forward!");
+        i++;
         System.out.println(i);
+        while(Sgo)i++;
     }
 
     public void pause(){
@@ -42,7 +44,9 @@ public class Main extends Application {
 
     public void back(){
         System.out.println("Rewind!");
+        i--;
         System.out.println(i);
+        while(Sback)i--;
     }
 
     //public void importImage() {
@@ -79,7 +83,12 @@ public class Main extends Application {
         //Filechooser
 
 
+        ImageView current = new ImageView();
+        //layout2.getChildren().add(current);
+        current.setImage(images.get(i));
+
         //UI
+
         ToggleButton tBtn1 = new ToggleButton("rewind");
         ToggleButton tBtn2 = new ToggleButton("pause");
         ToggleButton tBtn3 = new ToggleButton("forward");
@@ -90,22 +99,39 @@ public class Main extends Application {
         tBtn1.setToggleGroup(toggleGroup);
         tBtn2.setToggleGroup(toggleGroup);
         tBtn3.setToggleGroup(toggleGroup);
-        tBtn1.setOnAction(actionEvent -> back());
-        tBtn2.setOnAction(actionEvent -> pause());
-        tBtn3.setOnAction(actionEvent -> go());
+        tBtn1.setOnAction(actionEvent -> {
+            back();
+            current.setImage(images.get(i));
+        });
+        tBtn2.setOnAction(actionEvent -> {
+            pause();
+            current.setImage(images.get(i));
+        });
+        tBtn3.setOnAction(actionEvent -> {
+            go();
+            current.setImage(images.get(i));
+        });
         //importBtn.setOnAction( actionEvent -> importImage());
 
         //functions
-            boolean Sgo = tBtn3.isSelected();
-            boolean Spause = tBtn2.isSelected();
-            boolean Sback = tBtn1.isSelected();
-            while(Sgo)i++;
-            while(Sback)i--;
+        Sgo = tBtn3.isSelected();
+        Spause = tBtn2.isSelected();
+        Sback = tBtn1.isSelected();
+
+
+        //new UI
+        SplitMenuButton selectr = new SplitMenuButton();
+        selectr.setText("Images");
+
+        MenuItem c1 = new MenuItem("Choice 1");
+        MenuItem c2 = new MenuItem("Choice 2");
+        MenuItem c3 = new MenuItem("Choice 3");
+
+        selectr.getItems().addAll(c1, c2, c3);
 
         //Layout
         HBox layout1 = new HBox(tBtn1, tBtn2, tBtn3);
-        ImageView current = new ImageView(images.get(i));
-        //layout2.getChildren().add(current);
+        //HBox layout1 = new HBox();
         HBox layout2 = new HBox(current);
 
         VBox layoutMain = new VBox(layout1, layout2);
