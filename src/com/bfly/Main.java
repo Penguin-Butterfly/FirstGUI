@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -32,7 +33,7 @@ public class Main extends Application {
 
     public void go(){
         System.out.println("Forward!");
-        i++;
+        if(i>10)i++;
         System.out.println(i);
         while(Sgo)i++;
     }
@@ -44,16 +45,11 @@ public class Main extends Application {
 
     public void back(){
         System.out.println("Rewind!");
-        i--;
+        if(i<0)i--;
         System.out.println(i);
         while(Sback)i--;
     }
 
-    //public void importImage() {
-    //    FileChooser filechooser = new FileChooser();
-    //    File seleFile = filechooser.showOpenDialog(stage);
-    //
-    //}
 
     static ArrayList<Image> images = new ArrayList<>();
 
@@ -82,22 +78,36 @@ public class Main extends Application {
 
         //Filechooser
 
+        DirectoryChooser imgSele = new DirectoryChooser();
+        imgSele.setInitialDirectory(new File("C:\\Users\\Bfly\\Pictures"));
+        Button importBtn = new Button("Import Images");
+        /*
+        importBtn.setOnAction(e -> {
+            File FileSele = imgSele.showDialog(stage);
+            Image newImg = new Image(FileSele.getName());
+            //images.add(newImg);
+        });
+        */
+
+
+
 
         ImageView current = new ImageView();
         //layout2.getChildren().add(current);
         current.setImage(images.get(i));
+
+
 
         //UI
 
         ToggleButton tBtn1 = new ToggleButton("rewind");
         ToggleButton tBtn2 = new ToggleButton("pause");
         ToggleButton tBtn3 = new ToggleButton("forward");
-        Button importBtn = new Button("Import Image");
 
         ToggleGroup toggleGroup = new ToggleGroup();
 
         tBtn1.setToggleGroup(toggleGroup);
-        tBtn2.setToggleGroup(toggleGroup);
+        //tBtn2.setToggleGroup(toggleGroup);
         tBtn3.setToggleGroup(toggleGroup);
         tBtn1.setOnAction(actionEvent -> {
             back();
@@ -111,7 +121,6 @@ public class Main extends Application {
             go();
             current.setImage(images.get(i));
         });
-        //importBtn.setOnAction( actionEvent -> importImage());
 
         //functions
         Sgo = tBtn3.isSelected();
@@ -130,7 +139,7 @@ public class Main extends Application {
         selectr.getItems().addAll(c1, c2, c3);
 
         //Layout
-        HBox layout1 = new HBox(tBtn1, tBtn2, tBtn3);
+        HBox layout1 = new HBox(tBtn1, tBtn3, importBtn);
         //HBox layout1 = new HBox();
         HBox layout2 = new HBox(current);
 
