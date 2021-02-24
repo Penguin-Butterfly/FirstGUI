@@ -33,7 +33,7 @@ public class Main extends Application {
 
     public void go(){
         System.out.println("Forward!");
-        if(i>10)i++;
+        if(i<10)i++;
         System.out.println(i);
         while(Sgo)i++;
     }
@@ -45,7 +45,7 @@ public class Main extends Application {
 
     public void back(){
         System.out.println("Rewind!");
-        if(i<0)i--;
+        if(i>0)i--;
         System.out.println(i);
         while(Sback)i--;
     }
