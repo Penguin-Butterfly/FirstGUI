@@ -26,28 +26,11 @@ public class Main extends Application {
     Boolean Spause;
     Boolean Sback;
     int i;
+    int imgNum;
+
     public static void main(String[] args) {
         // write your code here
         Application.launch(args);
-    }
-
-    public void go(){
-        System.out.println("Forward!");
-        if(i<10)i++;
-        System.out.println(i);
-        while(Sgo)i++;
-    }
-
-    public void pause(){
-        System.out.println("Pause!");
-        System.out.println(i);
-    }
-
-    public void back(){
-        System.out.println("Rewind!");
-        if(i>0)i--;
-        System.out.println(i);
-        while(Sback)i--;
     }
 
 
@@ -72,23 +55,30 @@ public class Main extends Application {
         images.add(bfly2);
         images.add(bfly3);
         images.add(bfly4);
+        imgNum = 4;
 
 
         //image selection
 
         //Filechooser
 
-        DirectoryChooser imgSele = new DirectoryChooser();
+        FileChooser imgSele = new FileChooser();
         imgSele.setInitialDirectory(new File("C:\\Users\\Bfly\\Pictures"));
         Button importBtn = new Button("Import Images");
-        /*
         importBtn.setOnAction(e -> {
-            File FileSele = imgSele.showDialog(stage);
-            Image newImg = new Image(FileSele.getName());
-            //images.add(newImg);
+            File FileSele = imgSele.showOpenDialog(stage);
+            String FileLoc = new String(FileSele.getAbsolutePath());
+            System.out.println(FileLoc);
+            FileInputStream newFile = null;
+            try {
+                newFile = new FileInputStream(FileLoc);
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
+            Image newImg = new Image(newFile);
+            images.add(newImg);
+            imgNum = images.size();
         });
-        */
-
 
 
 
@@ -97,18 +87,34 @@ public class Main extends Application {
         current.setImage(images.get(i));
 
 
-
         //UI
-
+        /* get back to this later
         ToggleButton tBtn1 = new ToggleButton("rewind");
         ToggleButton tBtn2 = new ToggleButton("pause");
         ToggleButton tBtn3 = new ToggleButton("forward");
+        */
 
+        Button tBtn1 = new Button("rewind");
+        Button tBtn2 = new Button("pause");
+        Button tBtn3 = new Button("forward");
+        SplitMenuButton selectImg = new SplitMenuButton();
+        selectImg.setText("select image");
+
+        MenuItem o1 = new MenuItem("1");
+        MenuItem o2 = new MenuItem("2");
+        MenuItem o3 = new MenuItem("3");
+        MenuItem o4 = new MenuItem("4");
+        MenuItem o5 = new MenuItem("5");
+
+        selectImg.getItems().addAll(o1,o2,o3,o4,o5);
+
+        /*
         ToggleGroup toggleGroup = new ToggleGroup();
-
         tBtn1.setToggleGroup(toggleGroup);
-        //tBtn2.setToggleGroup(toggleGroup);
+        tBtn2.setToggleGroup(toggleGroup);
         tBtn3.setToggleGroup(toggleGroup);
+        */
+
         tBtn1.setOnAction(actionEvent -> {
             back();
             current.setImage(images.get(i));
@@ -123,9 +129,11 @@ public class Main extends Application {
         });
 
         //functions
+        /*
         Sgo = tBtn3.isSelected();
         Spause = tBtn2.isSelected();
         Sback = tBtn1.isSelected();
+        */
 
 
         //new UI
@@ -149,11 +157,30 @@ public class Main extends Application {
         //Scene settings
         Scene scene1 = new Scene(layoutMain);
         stage.setScene(scene1);
-        stage.setFullScreen(true);
+        //stage.setFullScreen(true);
         //scene1.setCursor(Cursor.WAIT);
 
         //show scene
         stage.show();
         System.out.println(i);
+    }
+
+    public void go() {
+        System.out.println("Forward!");
+        if (i < imgNum) i++;
+        System.out.println(i);
+        //while (Sgo) i++;
+    }
+
+    public void pause() {
+        System.out.println("Pause!");
+        System.out.println(i);
+    }
+
+    public void back() {
+        System.out.println("Rewind!");
+        if (i > 0) i--;
+        System.out.println(i);
+        //while (Sback) i--;
     }
 }
